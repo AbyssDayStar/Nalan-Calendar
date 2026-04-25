@@ -1,1 +1,1 @@
-from aiohttp import web
+import requests as web
