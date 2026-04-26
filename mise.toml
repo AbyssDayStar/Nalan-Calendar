@@ -15,5 +15,9 @@ run = "pip install -r requirements.txt"
 description = "运行 Matrix 机器人：Nalan日历"
 run = "python main.py"
 
+#[tasks.test]
+#description = "执行调试"
+#run = "python ./test/test.py"
+
 [settings]
 github_attestations = false 

@@ -1,3 +1,4 @@
+import asyncio
 from func import days
 #计算日期
 #from func import hook
@@ -6,8 +7,9 @@ from bot import send
 #调用botlib发送
 
 # main：将数据格式化，交给发送端
-
-
+date=days.Dime()
+text=f"Nalan纪元第{date.delta}"
+asyncio.run(send.inSend(text))
 
 
 
