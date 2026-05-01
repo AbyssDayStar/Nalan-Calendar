@@ -3,22 +3,21 @@ import asyncio
 import os
 
 class MatrixCommander:
-    def __init__(self, homeserver: str, username: str, token: str,password:str):
+    def __init__(self, homeserver: str, username: str, token: str):
         self.homeserver = homeserver
         self.username = username
         self.token = token
-        self.password = password
 
     async def send(self, room_id: str, text: str):
+        # 关键：--sync OFF 避免需要凭证文件
         cmd = [
             "matrix-commander",
             "--homeserver", self.homeserver,
             "--user", self.username,
-            "--access-token", self.token,   
+            "--access-token", self.token,
             "--room", room_id,
             "--message", text,
-            "-password", self.password,
-            "--login", "password",
+            "--sync", "OFF",          # 禁止同步，无需凭证文件
         ]
         proc = await asyncio.create_subprocess_exec(
             *cmd,
@@ -28,7 +27,6 @@ class MatrixCommander:
         _, stderr = await proc.communicate()
         if proc.returncode != 0:
             raise RuntimeError(f"发送失败: {stderr.decode().strip()}")
-        
 
 _mc = None
 
@@ -37,12 +35,9 @@ async def inSend(text: str):
     if _mc is None:
         homeserver = os.environ.get("MATRIX_HOMESERVER", "https://chat.neboer.site")
         username = os.environ.get("MATRIX_USERNAME", "stp_bot")
-        token = os.environ.get("MATRIX_ACCESS_TOKEN","syt_c3RwX2JvdA_mFzGxwnTTdcanJGOzAOC_1v1YYf")
-        password = os.environ.get("MATRIX_PASSWORD", "Stp@Ie110920111029")
+        token = os.environ.get("MATRIX_ACCESS_TOKEN")
         if not token:
             raise ValueError("未找到 MATRIX_ACCESS_TOKEN 环境变量")
-        if not password:
-            raise ValueError("未找到 MATRIX_PASSWORD 环境变量")
-        _mc = MatrixCommander(homeserver, username, token,password)
+        _mc = MatrixCommander(homeserver, username, token)
     room_id = os.environ.get("MATRIX_ROOM_ID", "!IlbFNHvoIvWRNsRSap:chat.neboer.site")
     await _mc.send(room_id, text)
