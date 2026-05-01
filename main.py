@@ -8,7 +8,7 @@ from bot import send
 async def main():
     """main：将数据格式化，交给发送端"""
     date=days.Dime()
-    text=f"Nalan纪元第{date.delta}"
+    text=f"纳兰纪元第{date.delta}天"
     await send.inSend(text)
 
 if __name__=="__main__":

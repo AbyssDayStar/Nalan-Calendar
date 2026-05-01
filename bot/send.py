@@ -1,36 +1,32 @@
 # bot/send.py
 import os
-from nio import AsyncClient
+import requests
+import uuid
+from func import days
+import asyncio
 
 async def inSend(text: str):
-    homeserver = os.getenv("MATRIX_HOMESERVER")
-    user_id = os.getenv("MATRIX_USER_ID")
-    access_token = os.getenv("MATRIX_ACCESS_TOKEN")
-    room_id = os.getenv("MATRIX_ROOM_ID", "!IlbFNHvoIvWRNsRSap:chat.neboer.site")
+    # 使用正确的 homeserver 地址（带端口）
+    homeserver = os.getenv("MATRIX_HOMESERVER", "https://matrix.neboer.site:8448").rstrip('/')
+    access_token = os.getenv("MATRIX_ACCESS_TOKEN", "syt_c3RwX2JvdA_ksVTBlhSLMMsaLwxfnBr_3RSdhT")
+    room_id = os.getenv("MATRIX_ROOM_ID", "!IlbFNHvoIvWRNsRSap:chat.neboer.site")  # 房间 ID 可能不变
 
-    if not homeserver or not user_id or not access_token:
-        raise ValueError("缺少必要的环境变量: MATRIX_HOMESERVER, MATRIX_USER_ID, MATRIX_ACCESS_TOKEN")
+    if not access_token:
+        raise ValueError("未找到 MATRIX_ACCESS_TOKEN 环境变量")
 
-    client = AsyncClient(homeserver, user_id)
-    try:
-        # 登录并检查响应
-        response = await client.login(token=access_token)
-        if not response:
-            raise RuntimeError("登录失败: 未收到响应")
-        if hasattr(response, 'access_token'):
-            # 成功登录
-            print(f"登录成功，设备ID: {response.device_id}")
-        else:
-            # 如果有错误字段
-            error_msg = getattr(response, 'message', '未知错误')
-            raise RuntimeError(f"登录失败: {error_msg}")
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+    }
+    payload = {
+        "msgtype": "m.text",
+        "body": text,
+    }
 
-        # 发送消息
-        await client.room_send(
-            room_id,
-            message_type="m.room.message",
-            content={"msgtype": "m.text", "body": text}
-        )
-        print("消息发送成功")
-    finally:
-        await client.close()
+    txn_id = str(uuid.uuid4())
+    url = f"{homeserver}/_matrix/client/v3/rooms/{room_id}/send/m.room.message/{txn_id}"
+    response = requests.put(url, json=payload, headers=headers)
+    if response.status_code != 200:
+        raise RuntimeError(f"发送失败 (HTTP {response.status_code}): {response.text}")
+
+    print("消息发送成功")
