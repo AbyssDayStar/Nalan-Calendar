@@ -3,19 +3,17 @@ import asyncio
 import os
 
 class MatrixCommander:
-    """封装 matrix-commander 命令行工具，使用 Access Token 认证"""
     def __init__(self, homeserver: str, username: str, token: str):
         self.homeserver = homeserver
         self.username = username
         self.token = token
 
     async def send(self, room_id: str, text: str):
-        """发送消息到指定房间"""
         cmd = [
             "matrix-commander",
             "--homeserver", self.homeserver,
             "--user", self.username,
-            "--token", self.token,
+            "--access-token", self.token,   # 修改为 --access-token
             "--room", room_id,
             "--message", text,
         ]
@@ -37,7 +35,7 @@ async def inSend(text: str):
         username = os.environ.get("MATRIX_USERNAME", "stp_bot")
         token = os.environ.get("MATRIX_ACCESS_TOKEN","syt_c3RwX2JvdA_mFzGxwnTTdcanJGOzAOC_1v1YYf")
         if not token:
-            raise ValueError("未找到 MATRIX_ACCESS_TOKEN 环境变量，请设置 Access Token")
+            raise ValueError("未找到 MATRIX_ACCESS_TOKEN 环境变量")
         _mc = MatrixCommander(homeserver, username, token)
     room_id = os.environ.get("MATRIX_ROOM_ID", "!IlbFNHvoIvWRNsRSap:chat.neboer.site")
     await _mc.send(room_id, text)
