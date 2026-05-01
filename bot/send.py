@@ -17,6 +17,7 @@ class MatrixCommander:
             "--room", room_id,
             "--message", text,
         ]
+        print(f"{cmd}")
         proc = await asyncio.create_subprocess_exec(
             *cmd,
             stdout=asyncio.subprocess.PIPE,
@@ -25,6 +26,10 @@ class MatrixCommander:
         _, stderr = await proc.communicate()
         if proc.returncode != 0:
             raise RuntimeError(f"发送失败: {stderr.decode().strip()}")
+        
+        print(f"{self.homeserver}")
+        print(f"{self.username}")
+        print(f"{self.token}")
 
 _mc = None
 
