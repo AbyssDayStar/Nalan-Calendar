@@ -1,8 +1,8 @@
 # Nalan-Calendar
 > 给时光以生命，而不是给生命以时光
 
-使用simplematrixbot库制作的matrix机器人
-实现了每日日历和新闻转发
+使用requests库制作的matrix机器人
+目前实现了每日日历
 **欢迎**加入matrix讨论[NalanCafe/纳兰咖啡厅](chat.neboer.site/#/#N.cafe:chat.neboer.site)
 也欢迎在issue提建议
 
@@ -10,7 +10,7 @@
 ### 日历
 利用datetime计算和换算时间
 ### 发送
-使用nio-bot转发
+使用requests转发
 ### 定时
 GithubAction运行
 
@@ -19,7 +19,7 @@ GithubAction运行
 /
 |
 +---bot                 有关Matrix机器人
-|   \---send.py         调用nio-bot发送
+|   \---send.py         调用requests发到Matrix Api发送
 |
 +---func                数据获取和计算
 |   +---days.py         计算日期（本来就是日历对吧）

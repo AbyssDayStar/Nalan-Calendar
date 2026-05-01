@@ -7,13 +7,9 @@ import asyncio
 
 async def inSend(text: str):
     # 使用正确的 homeserver 地址（带端口）
-    #homeserver = os.getenv("MATRIX_HOMESERVER", "https://matrix.neboer.site:8448").rstrip('/')
-    #access_token = os.getenv("MATRIX_ACCESS_TOKEN", "syt_c3RwX2JvdA_ksVTBlhSLMMsaLwxfnBr_3RSdhT")
-    #room_id = os.getenv("MATRIX_ROOM_ID", "!IlbFNHvoIvWRNsRSap:chat.neboer.site")  # 房间 ID 可能不变
-
-    homeserver = "https://matrix.neboer.site:8448/"
-    access_token = "syt_c3RwX2JvdA_BgLHeTLNAEPgWMFaKsJF_15waki"
-    room_id = "!IlbFNHvoIvWRNsRSap:chat.neboer.site"
+    homeserver = os.getenv("MATRIX_HOMESERVER")
+    access_token = os.getenv("MATRIX_ACCESS_TOKEN")
+    room_id = os.getenv("MATRIX_ROOM_ID")  # 房间 ID 可能不变
 
     if not access_token:
         raise ValueError("未找到 MATRIX_ACCESS_TOKEN 环境变量")
