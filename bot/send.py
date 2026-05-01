@@ -1,15 +1,22 @@
-import simplematrixbotlib as botlib
+# bot/send.py
+import os
+from nio import AsyncClient
 
-async def inSend(text:str):
-    """制作机器人并转发到matrix群"""
-    creds=botlib.Creds("https://chat.neboer.site","stp_bot","Stp@Ie110920111029")
-    bot=botlib.Bot(creds)
-    # 登录机器人
-    ROOM_ID="!IlbFNHvoIvWRNsRSap:chat.neboer.site"
+async def inSend(text: str):
+    homeserver = os.getenv("MATRIX_HOMESERVER", "https://chat.neboer.site")
+    user_id = os.getenv("MATRIX_USER_ID", "@stp_bot:chat.neboer.site")
+    access_token = os.getenv("MATRIX_ACCESS_TOKEN", "syt_c3RwX2JvdA_ksVTBlhSLMMsaLwxfnBr_3RSdhT")
+    room_id = os.getenv("MATRIX_ROOM_ID", "!IlbFNHvoIvWRNsRSap:chat.neboer.site")
 
-    await bot.async_client.login(creds.password, device_name="Github")
-    await bot.async_client.sync(timeout=30000, full_state=True)  # 同步一次，获取房间信息
-    await bot.api.send_text_message(ROOM_ID,text)
-    await bot.async_client.close()
-    
-
+    client = AsyncClient(homeserver, user_id)
+    try:
+        # 使用 access token 登录
+        await client.login(token=access_token)
+        # 发送消息
+        await client.room_send(
+            room_id,
+            message_type="m.room.message",
+            content={"msgtype": "m.text", "body": text}
+        )
+    finally:
+        await client.close()

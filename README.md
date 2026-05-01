@@ -10,7 +10,7 @@
 ### 日历
 利用datetime计算和换算时间
 ### 发送
-使用simplematrixbot转发
+使用nio-bot转发
 ### 定时
 GithubAction运行
 
@@ -19,7 +19,7 @@ GithubAction运行
 /
 |
 +---bot                 有关Matrix机器人
-|   \---send.py         调用simplematrixbot发送
+|   \---send.py         调用nio-bot发送
 |
 +---func                数据获取和计算
 |   +---days.py         计算日期（本来就是日历对吧）
