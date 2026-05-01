@@ -2,7 +2,7 @@ name: Send Matrix Notification
 
 on:
   schedule:
-    - cron: '0 14 * * *'
+    - cron: '0 14 * * *'   # UTC 14:00 = 北京时间 22:00
   workflow_dispatch:
 
 jobs:
@@ -19,13 +19,13 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt   # ← 安装你的项目依赖
+          pip install -r requirements.txt
           pip install matrix-commander
 
       - name: Run Python script
         env:
           MATRIX_HOMESERVER: ${{ secrets.MATRIX_HOMESERVER }}
-          MATRIX_USERNAME: ${{ secrets.MATRIX_USERNAME }}   # ← 与 secret 名一致
-          MATRIX_PASSWORD: ${{ secrets.MATRIX_PASSWORD }}
-          MATRIX_ROOM_ID: ${{ secrets.MATRIX_ROOM_ID }}     # ← 可选，也可硬编码
+          MATRIX_USERNAME: ${{ secrets.MATRIX_USERNAME }}
+          MATRIX_ACCESS_TOKEN: ${{ secrets.MATRIX_ACCESS_TOKEN }}  # 改用 token
+          MATRIX_ROOM_ID: ${{ secrets.MATRIX_ROOM_ID }}
         run: python main.py

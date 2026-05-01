@@ -39,7 +39,7 @@ GithubAction运行
 - [x] 库寻找和开发环境部署（*一个好的开始就是成功的一半*）
 - [x] 日期计算
 - [x] 日历制作
-- [ ] Github Action 部署
+- [x] Github Action 部署
 - [ ] 初次发送
 - [ ] 最终调试 
 ---

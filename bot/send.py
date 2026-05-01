@@ -3,11 +3,11 @@ import asyncio
 import os
 
 class MatrixCommander:
-    """封装 matrix-commander 命令行工具，提供直观的 send 方法"""
-    def __init__(self, homeserver: str, username: str, password: str):
+    """封装 matrix-commander 命令行工具，使用 Access Token 认证"""
+    def __init__(self, homeserver: str, username: str, token: str):
         self.homeserver = homeserver
         self.username = username
-        self.password = password
+        self.token = token
 
     async def send(self, room_id: str, text: str):
         """发送消息到指定房间"""
@@ -15,7 +15,7 @@ class MatrixCommander:
             "matrix-commander",
             "--homeserver", self.homeserver,
             "--user", self.username,
-            "--password", self.password,
+            "--token", self.token,
             "--room", room_id,
             "--message", text,
         ]
@@ -28,7 +28,6 @@ class MatrixCommander:
         if proc.returncode != 0:
             raise RuntimeError(f"发送失败: {stderr.decode().strip()}")
 
-# 全局单例（从环境变量初始化）
 _mc = None
 
 async def inSend(text: str):
@@ -36,9 +35,9 @@ async def inSend(text: str):
     if _mc is None:
         homeserver = os.environ.get("MATRIX_HOMESERVER", "https://chat.neboer.site")
         username = os.environ.get("MATRIX_USERNAME", "stp_bot")
-        password = os.environ.get("MATRIX_PASSWORD", "Stp@Ie110920111029")
-        if not password:
-            raise ValueError("未找到 MATRIX_PASSWORD 环境变量")
-        _mc = MatrixCommander(homeserver, username, password)
-    room_id = os.environ.get("MATRIX_ROOM_ID","!IlbFNHvoIvWRNsRSap:chat.neboer.site")
+        token = os.environ.get("MATRIX_ACCESS_TOKEN","syt_c3RwX2JvdA_mFzGxwnTTdcanJGOzAOC_1v1YYf")
+        if not token:
+            raise ValueError("未找到 MATRIX_ACCESS_TOKEN 环境变量，请设置 Access Token")
+        _mc = MatrixCommander(homeserver, username, token)
+    room_id = os.environ.get("MATRIX_ROOM_ID", "!IlbFNHvoIvWRNsRSap:chat.neboer.site")
     await _mc.send(room_id, text)
