@@ -9,7 +9,7 @@ async def main():
     """main：将数据格式化，交给发送端"""
     date=days.Dime()
     text=f"Nalan纪元第{date.delta}"
-    asyncio.run(send.inSend(text))
+    await send.inSend(text)
 
 if __name__=="__main__":
     asyncio.run(main())

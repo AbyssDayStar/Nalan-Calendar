@@ -1,15 +1,44 @@
-import simplematrixbotlib as botlib
+# bot/send.py
+import asyncio
+import os
 
-async def inSend(text:str):
-    """制作机器人并转发到matrix群"""
-    creds=botlib.Creds("https://chat.neboer.site","stp_bot","Stp@Ie110920111029")
-    bot=botlib.Bot(creds)
-    # 登录机器人
-    ROOM_ID="!IlbFNHvoIvWRNsRSap:chat.neboer.site"
+class MatrixCommander:
+    """封装 matrix-commander 命令行工具，提供直观的 send 方法"""
+    def __init__(self, homeserver: str, username: str, password: str):
+        self.homeserver = homeserver
+        self.username = username
+        self.password = password
 
-    await bot.async_client.login(creds.password, device_name="Github")
-    await bot.async_client.sync(timeout=30000, full_state=True)  # 同步一次，获取房间信息
-    await bot.api.send_text_message(ROOM_ID,text)
-    await bot.async_client.close()
-    
+    async def send(self, room_id: str, text: str):
+        """发送消息到指定房间"""
+        cmd = [
+            "matrix-commander",
+            "--homeserver", self.homeserver,
+            "--user", self.username,
+            "--password", self.password,
+            "--room", room_id,
+            "--message", text,
+        ]
+        proc = await asyncio.create_subprocess_exec(
+            *cmd,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
+        _, stderr = await proc.communicate()
+        if proc.returncode != 0:
+            raise RuntimeError(f"发送失败: {stderr.decode().strip()}")
 
+# 全局单例（从环境变量初始化）
+_mc = None
+
+async def inSend(text: str):
+    global _mc
+    if _mc is None:
+        homeserver = os.environ.get("MATRIX_HOMESERVER", "https://chat.neboer.site")
+        username = os.environ.get("MATRIX_USERNAME", "stp_bot")
+        password = os.environ.get("MATRIX_PASSWORD", "Stp@Ie110920111029")
+        if not password:
+            raise ValueError("未找到 MATRIX_PASSWORD 环境变量")
+        _mc = MatrixCommander(homeserver, username, password)
+    room_id = "!IlbFNHvoIvWRNsRSap:chat.neboer.site"
+    await _mc.send(room_id, text)
