@@ -20,12 +20,11 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          pip install matrix-commander
 
       - name: Run Python script
         env:
           MATRIX_HOMESERVER: ${{ secrets.MATRIX_HOMESERVER }}
-          MATRIX_USERNAME: ${{ secrets.MATRIX_USERNAME }}
+          MATRIX_USERNAME: ${{ secrets.MATRIX_USER_ID }}
           MATRIX_ACCESS_TOKEN: ${{ secrets.MATRIX_ACCESS_TOKEN }}  # 改用 token
           MATRIX_ROOM_ID: ${{ secrets.MATRIX_ROOM_ID }}
           MATRIX_PASSWORD: ${{ secrets.MATRIX_PASSWORD }}
