@@ -12,7 +12,7 @@ async def inSend(text: str):
     #room_id = os.getenv("MATRIX_ROOM_ID", "!IlbFNHvoIvWRNsRSap:chat.neboer.site")  # 房间 ID 可能不变
 
     homeserver = "https://matrix.neboer.site:8448/"
-    access_token = "syt_c3RwX2JvdA_ksVTBlhSLMMsaLwxfnBr_3RSdhT"
+    access_token = "syt_c3RwX2JvdA_BgLHeTLNAEPgWMFaKsJF_15waki"
     room_id = "!IlbFNHvoIvWRNsRSap:chat.neboer.site"
 
     if not access_token:
