@@ -1,4 +1,4 @@
-name: Send Matrix Notification
+name: Nalan Calendar
 
 on:
   schedule:

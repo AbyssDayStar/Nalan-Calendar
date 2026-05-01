@@ -12,7 +12,7 @@ async def main():
     await send.inSend(text)
 
 if __name__=="__main__":
-    asyncio.run(main())
+    asyncio.run(main()) # 异步调用
     
 
 
