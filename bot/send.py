@@ -40,5 +40,5 @@ async def inSend(text: str):
         if not password:
             raise ValueError("未找到 MATRIX_PASSWORD 环境变量")
         _mc = MatrixCommander(homeserver, username, password)
-    room_id = "!IlbFNHvoIvWRNsRSap:chat.neboer.site"
+    room_id = os.environ.get("MATRIX_ROOM_ID","!IlbFNHvoIvWRNsRSap:chat.neboer.site")
     await _mc.send(room_id, text)
