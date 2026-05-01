@@ -2,3 +2,4 @@
 .vscode/
 test/test.py
 func/__pycache__
+bot/__pycache__
