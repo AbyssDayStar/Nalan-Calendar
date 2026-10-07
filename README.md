@@ -3,10 +3,10 @@
 
 > _此项目献给我的初中三年_
 
-使用requests库制作的matrix机器人
-目前实现了每日日历
-**欢迎**加入matrix讨论[NalanCafe/纳兰咖啡厅](chat.neboer.site/#/#N.cafe:chat.neboer.site)
-也欢迎在issue提建议
+使用requests库和celestial-calendar库制作的matrix机器人  
+目前实现了每日日历  
+**欢迎**加入matrix讨论[NalanCafe/纳兰咖啡厅](chat.neboer.site/#/#N.cafe:chat.neboer.site)  
+也欢迎在issue提建议  
 
 ## 具体实现：
 ### 日历
