@@ -7,14 +7,13 @@ from bot import send
 def format_message(dime, calen):
     text = f"纳兰纪元第{dime.delta}天"
 
-    if calen.luckri or calen.luckyi:
-        text += "今天是"
+    names = []
     if calen.luckri:
-        text += f"，{calen.nowjieri}"
+        names.append(calen.nowjieri)
     if calen.luckyi:
-        text += f"，{calen.nowjieyi}"
-    if calen.luckri or calen.luckyi:
-        text += "🎉"
+        names.append(calen.nowjieyi)
+    if names:
+        text += "，今天是" + "、".join(names) + "🎉"
     if calen.luckqi:
         text += f"，今天是{calen.nowjieqi}日"
 
