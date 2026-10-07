@@ -1,6 +1,7 @@
 from func import days,hook
 from datetime import date,timedelta,datetime
 from zoneinfo import ZoneInfo
+import pytest
 def test_daytime():
     d = days.Dime()
 
@@ -10,7 +11,7 @@ def test_daytime():
 
     # 2. 基准日硬编码，作为回归护栏
     # 如果谁把 2025-07-31 改成别的，或把 +1 去掉，这里会挂
-    assert d.delta == (d.today - date(2025, 7, 31)).days + 1
+    assert d.delta == (expected_today - date(2025, 7, 31)).days + 1
 
     # 3. 基本约束：基准日之后 delta 至少为 1
     assert d.delta >= 1
@@ -21,7 +22,6 @@ def test_daytime():
 
 def test_mycalendar_cases():
     """测试 MyCalendar 在正常、边界情况下的行为。"""
-    from func import hook
 
     # ---------- 1. 正常：公历节日（日期固定，可精确断言） ----------
     for d, name in [
@@ -66,8 +66,8 @@ def test_mycalendar_cases():
         f"节气出现重名: {jieqi_names}"
     assert set(jieqi_names).issubset(set(hook.MyCalendar.JIEQI_CN)), \
         f"出现未知节气名: {jieqi_names}"
-    # 公历一年内节气数量一般在 23~25 之间（首尾可能沾上相邻年份）
-    assert 23 <= len(jieqi_names) <= 25, \
+    # 公历一年内节气必然为24个
+    assert len(jieqi_names) == 24, \
         f"节气数量异常: {len(jieqi_names)}"
 
     # 农历节日：春节、七夕、中秋各 1 次
@@ -80,4 +80,21 @@ def test_mycalendar_cases():
         c = hook.MyCalendar(d)
         assert c.luck == (c.luckqi or c.luckri or c.luckyi), \
             f"{d} luck 与分标志不一致"
+        d += timedelta(days=1)
+
+@pytest.mark.skip(reason="exploration only, run manually")
+def test_explore_year_2026():
+    d = date(2026, 1, 1)
+    end = date(2026, 12, 31)
+    while d <= end:
+        c = hook.MyCalendar(d)
+        marks = []
+        if c.luckqi:
+            marks.append(f"节气:{c.nowjieqi}")
+        if c.luckri:
+            marks.append(f"公历:{c.nowjieri}")
+        if c.luckyi:
+            marks.append(f"农历:{c.nowjieyi}")
+        if marks:
+            print(d, "|", ", ".join(marks))
         d += timedelta(days=1)
