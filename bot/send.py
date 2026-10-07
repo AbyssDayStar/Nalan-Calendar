@@ -2,9 +2,11 @@
 import os
 import requests
 import uuid
+import logging
 
 def inSend(text: str):
     '''使用requests转发到官方API发送（同步版本）'''
+    logging.basicConfig(level=logging.INFO)  
     homeserver = os.getenv("MATRIX_HOMESERVER")
     access_token = os.getenv("MATRIX_ACCESS_TOKEN")
     room_id = os.getenv("MATRIX_ROOM_ID")
@@ -27,6 +29,6 @@ def inSend(text: str):
     try:
         response = requests.put(url, json=payload, headers=headers, timeout=10)
         response.raise_for_status() # 如果状态码不是200，自动抛出HTTPError
-        print("消息发送成功")
+        logging.info("消息发送成功")
     except requests.exceptions.RequestException as e:
-        raise RuntimeError(f"发送失败: {e}")
+        raise RuntimeError(f"发送失败: {e}") from e

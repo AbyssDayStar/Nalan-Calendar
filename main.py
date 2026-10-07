@@ -21,7 +21,7 @@ def format_message(dime, calen):
 
 if __name__ == "__main__":
     dime = days.Dime()
-    calen = hook.calendar()
+    calen = hook.calendar(dime)
 
     if dime.delta % 10 == 0 or calen.luck:
         send.inSend(format_message(dime, calen))
