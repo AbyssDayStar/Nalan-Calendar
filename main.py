@@ -1,7 +1,7 @@
 from func import days
 #计算日期
 from func import hook
-#hook用于网络钩子，1.1添加日历获取、1.2添加风景
+#hook用于网络钩子，1.3添加日历获取，1.5添加风景
 from bot import send
 #调用botlib发送
 def format_message(dime, calen):
