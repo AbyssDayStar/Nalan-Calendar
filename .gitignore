@@ -1,5 +1,5 @@
 .venv/
 .vscode/
-test/test.py
+test
 func/__pycache__
 bot/__pycache__
