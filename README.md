@@ -24,13 +24,13 @@ GithubAction运行
 |   \---send.py         调用requests发到Matrix Api发送
 |
 +---func                数据获取和计算
-|   +---days.py         计算日期（本来就是日历对吧）
-|   \---hook.py         [规划中]网络钩子，用于api获取，之后会拆成几个部分
+|   +---days.py         计算日期
+|   \---hook.py         功能钩子，每个class一个功能
 |
-+---test                [不定]调试脚本
++---test                围栏脚本
 |
-+---main.py             主进程，调取func数据，格式化后发给bot
-+---mise.toml           mise环境规划
++---main.py             主进程，调取func数据，筛选日期，格式化后发给bot
++---pyproject.toml      项目管理     
 +---requirements.txt    包管理
 \---README.md           介绍文件（也就是本文件(∠・ω< )⌒☆）
 
