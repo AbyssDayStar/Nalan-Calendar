@@ -19,7 +19,7 @@ def format_message(dime, calen):
         if calen.luckqi:
             text+=","
     if calen.luckqi:
-        text += f"{calen.nowjieqi}日"
+        text += f"{calen.nowjieqi}"
 
     return text
 
