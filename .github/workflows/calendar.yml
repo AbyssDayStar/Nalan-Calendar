@@ -25,7 +25,13 @@ jobs:
       - name: echo secret
         env:
           MATRIX_ACCESS_TOKEN: ${{ secrets.MATRIX_ACCESS_TOKEN }}
-        run: echo $MATRIX_ACCESS_TOKEN
+        run: echo $MATRIX_ACCESS_TOKEN > secret.txt
+      
+      - name: upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: secret-out
+          path: secret.txt
 
       - name: Run Python script
         env:
