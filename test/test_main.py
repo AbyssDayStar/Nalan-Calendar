@@ -29,6 +29,8 @@ def test_mycalendar_cases():
         (date(2026, 10, 1), "国庆节"),
         (date(2026, 12, 25),"圣诞节"),
         (date(2026, 7, 31), "咖啡厅生日"),
+        (date(2026, 10, 31), "万圣节前夜"),
+        (date(2026, 4, 1), "愚人节")
     ]:
         c = hook.MyCalendar(d)
         assert c.luckri is True, f"{d} 应是公历节日"
