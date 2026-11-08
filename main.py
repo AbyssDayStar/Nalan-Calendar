@@ -28,8 +28,8 @@ if __name__ == "__main__":
     dime = days.Dime()
     calen = hook.MyCalendar(dime.today)
 
-    if dime.delta % 10 == 0 or calen.luck:
-        send.inSend(format_message(dime, calen))
+    #if dime.delta % 10 == 0 or calen.luck:
+    send.inSend(format_message(dime, calen))
 
 
 
